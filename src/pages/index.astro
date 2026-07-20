@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { getAllPosts } from '../lib/wix';
+
+const allPosts = await getAllPosts();
+const latestPosts = allPosts.slice(0, 6);
+const featuredPost = allPosts[0];
+const secondaryPosts = allPosts.slice(1, 4);
+const morePosts = allPosts.slice(4, 7);
+---
+
+<BaseLayout title="Beranda" description="Blog pribadi Hidayat — tentang teknologi, pemrograman, dan pengembangan web.">
+  <!-- Hero -->
+  <section class="bg-gray-900 text-white">
+    <div class="max-w-6xl mx-auto px-6 py-16 sm:py-24">
+      <div class="max-w-3xl">
+        <p class="text-blue-400 text-sm font-semibold uppercase tracking-wider mb-4">Selamat Datang</p>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+          Halo, saya <span class="text-blue-400">Hidayat</span>
+        </h1>
+        <p class="text-lg sm:text-xl text-gray-300 leading-relaxed mb-8 max-w-2xl">
+          Saya menulis tentang teknologi monitoring lingkungan, data sensing, solusi IoT, dan pengembangan web modern.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="/blog"
+            class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Baca Artikel
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+          <a
+            href="/about"
+            class="inline-flex items-center px-6 py-3 border border-gray-600 text-gray-300 font-semibold rounded-lg hover:border-gray-400 hover:text-white transition-colors"
+          >
+            Tentang Saya
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Articles -->
+  {latestPosts.length > 0 && (
+    <section class="py-16 sm:py-20">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="flex items-center justify-between mb-10">
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Artikel Terbaru</h2>
+          <a href="/blog" class="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+            Lihat Semua &rarr;
+          </a>
+        </div>
+
+        {featuredPost && (
+          <div class="mb-10">
+            <ArticleCard {...featuredPost} featured={true} />
+          </div>
+        )}
+
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {secondaryPosts.map((post) => (
+            <ArticleCard {...post} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- More Articles -->
+  {morePosts.length > 0 && (
+    <section class="py-16 bg-gray-50">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-10">Artikel Lainnya</h2>
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {morePosts.map((post) => (
+            <ArticleCard {...post} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Empty State -->
+  {latestPosts.length === 0 && (
+    <section class="py-20">
+      <div class="max-w-6xl mx-auto px-6 text-center">
+        <p class="text-gray-500 text-lg">Belum ada artikel yang dipublikasikan.</p>
+      </div>
+    </section>
+  )}
+</BaseLayout>

@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ArticleCard from '../../../components/ArticleCard.astro';
+import CategoryFilter from '../../../components/CategoryFilter.astro';
+import { getAllPosts, getAllCategories } from '../../../lib/wix';
+
+export async function getStaticPaths() {
+  const categories = await getAllCategories();
+  return categories.map((cat) => ({
+    params: { cat: cat.slug },
+  }));
+}
+
+const { cat } = Astro.params;
+const allCategories = await getAllCategories();
+const posts = await getAllPosts();
+const filteredPosts = posts.filter((post) =>
+  post.category.toLowerCase().replace(/\s+/g, '-') === cat
+);
+
+const categoryName = allCategories.find((c) => c.slug === cat)?.name || cat;
+---
+
+<BaseLayout title={`Kategori: ${categoryName}`} description={`Artikel dalam kategori ${categoryName}`}>
+  <section class="py-16 sm:py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="mb-10">
+        <p class="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-2">Kategori</p>
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">{categoryName}</h1>
+        <p class="text-gray-500">Artikel dalam kategori {categoryName}.</p>
+      </div>
+
+      <CategoryFilter categories={allCategories} activeCategory={cat} />
+
+      {filteredPosts.length > 0 ? (
+        <div class="grid gap-10 sm:grid-cols-2">
+          {filteredPosts.map((post) => (
+            <ArticleCard {...post} />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-20">
+          <p class="text-gray-500 text-lg">Belum ada artikel dalam kategori ini.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
