@@ -1,7 +1,7 @@
 /* empty css                                 */
 import { e as createAstro, f as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_D-iz1OF6.mjs';
 import 'piccolore';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_DuoPP4Zl.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_Bp3wSQoU.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Astro = createAstro("https://blog-pribadi.vercel.app");

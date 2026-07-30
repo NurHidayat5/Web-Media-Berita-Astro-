@@ -37,7 +37,7 @@ Blog pribadi tentang teknologi, pemrograman, dan pengembangan web.
 var __freeze = Object.freeze;
 var __defProp = Object.defineProperty;
 var __template = (cooked, raw) => __freeze(__defProp(cooked, "raw", { value: __freeze(cooked.slice()) }));
-var _a;
+var _b;
 const $$Astro$3 = createAstro("https://blog-pribadi.vercel.app");
 const $$SEOHead = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$3, $$props, $$slots);
@@ -54,7 +54,10 @@ const $$SEOHead = createComponent(($$result, $$props, $$slots) => {
   } = Astro2.props;
   const siteName = "Seputar Redaksi";
   const siteTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
-  const ogImage = image || new URL("/og-default.png", Astro2.site || "http://localhost:4321").href;
+  let ogImage = image || new URL("/og-default.png", Astro2.site || "https://web-media-berita-astro.vercel.app").href;
+  if (ogImage.startsWith("http://")) {
+    ogImage = ogImage.replace("http://", "https://");
+  }
   const jsonLd = type === "article" ? {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -95,7 +98,7 @@ const $$SEOHead = createComponent(($$result, $$props, $$slots) => {
       "query-input": "required name=search_term_string"
     }
   };
-  return renderTemplate(_a || (_a = __template(["<title>", '</title><meta name="description"', '><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">', '<meta name="author"', '><link rel="canonical"', '><!-- Open Graph --><meta property="og:type"', '><meta property="og:url"', '><meta property="og:title"', '><meta property="og:description"', '><meta property="og:image"', '><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:site_name"', '><meta property="og:locale" content="id_ID">', "", '<!-- Twitter / X --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title"', '><meta name="twitter:description"', '><meta name="twitter:image"', '><meta name="twitter:site" content="@seputarredaksi"><!-- JSON-LD Structured Data --><script type="application/ld+json">', "<\/script>"])), siteTitle, addAttribute(description, "content"), keywords && renderTemplate`<meta name="keywords"${addAttribute(keywords, "content")}>`, addAttribute(author, "content"), addAttribute(url, "href"), addAttribute(type, "content"), addAttribute(url, "content"), addAttribute(siteTitle, "content"), addAttribute(description, "content"), addAttribute(ogImage, "content"), addAttribute(siteName, "content"), type === "article" && publishDate && renderTemplate`<meta property="article:published_time"${addAttribute(publishDate, "content")}>`, type === "article" && renderTemplate`<meta property="article:author"${addAttribute(author, "content")}>`, addAttribute(siteTitle, "content"), addAttribute(description, "content"), addAttribute(ogImage, "content"), unescapeHTML(JSON.stringify(jsonLd)));
+  return renderTemplate(_b || (_b = __template(['<!-- Google Search Console Verification --><meta name="google-site-verification" content="dkWCjDLMrw1OXd2eWD5iJ7-KnrXtzu86RaJKh-XQWos"><!-- Google Analytics (GA4) -->', "<title>", '</title><meta name="description"', '><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">', '<meta name="author"', '><link rel="canonical"', '><!-- Open Graph / WhatsApp Sharing --><meta property="og:type"', '><meta property="og:url"', '><meta property="og:title"', '><meta property="og:description"', '><meta property="og:image"', '><meta property="og:image:secure_url"', '><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:site_name"', '><meta property="og:locale" content="id_ID">', "", '<!-- Twitter / X --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title"', '><meta name="twitter:description"', '><meta name="twitter:image"', '><meta name="twitter:site" content="@seputarredaksi"><!-- JSON-LD Structured Data --><script type="application/ld+json">', "</script>"])), undefined, siteTitle, addAttribute(description, "content"), keywords && renderTemplate`<meta name="keywords"${addAttribute(keywords, "content")}>`, addAttribute(author, "content"), addAttribute(url, "href"), addAttribute(type, "content"), addAttribute(url, "content"), addAttribute(siteTitle, "content"), addAttribute(description, "content"), addAttribute(ogImage, "content"), addAttribute(ogImage, "content"), addAttribute(siteName, "content"), type === "article" && publishDate && renderTemplate`<meta property="article:published_time"${addAttribute(publishDate, "content")}>`, type === "article" && renderTemplate`<meta property="article:author"${addAttribute(author, "content")}>`, addAttribute(siteTitle, "content"), addAttribute(description, "content"), addAttribute(ogImage, "content"), unescapeHTML(JSON.stringify(jsonLd)));
 }, "C:/Users/devel/OneDrive/Desktop/Blog-Pribadi/src/components/SEOHead.astro", void 0);
 
 const $$Astro$2 = createAstro("https://blog-pribadi.vercel.app");

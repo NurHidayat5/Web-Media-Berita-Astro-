@@ -23,7 +23,11 @@ const {
 
 const siteName = 'Seputar Redaksi';
 const siteTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
-const ogImage = image || new URL('/og-default.png', Astro.site || 'http://localhost:4321').href;
+
+let ogImage = image || new URL('/og-default.png', Astro.site || 'https://web-media-berita-astro.vercel.app').href;
+if (ogImage.startsWith('http://')) {
+  ogImage = ogImage.replace('http://', 'https://');
+}
 
 const jsonLd = type === 'article'
   ? {
@@ -69,6 +73,22 @@ const jsonLd = type === 'article'
     };
 ---
 
+<!-- Google Search Console Verification -->
+<meta name="google-site-verification" content="dkWCjDLMrw1OXd2eWD5iJ7-KnrXtzu86RaJKh-XQWos" />
+
+<!-- Google Analytics (GA4) -->
+{import.meta.env.PUBLIC_GA_ID && (
+  <>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_ID}`}></script>
+    <script is:inline set:html={`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${import.meta.env.PUBLIC_GA_ID}');
+    `} />
+  </>
+)}
+
 <title>{siteTitle}</title>
 <meta name="description" content={description} />
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -76,12 +96,13 @@ const jsonLd = type === 'article'
 <meta name="author" content={author} />
 <link rel="canonical" href={url} />
 
-<!-- Open Graph -->
+<!-- Open Graph / WhatsApp Sharing -->
 <meta property="og:type" content={type} />
 <meta property="og:url" content={url} />
 <meta property="og:title" content={siteTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
+<meta property="og:image:secure_url" content={ogImage} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:site_name" content={siteName} />
