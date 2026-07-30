@@ -1,13 +1,13 @@
 /* empty css                                       */
 import { e as createAstro, f as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../../../chunks/astro/server_D-iz1OF6.mjs';
 import 'piccolore';
-import { $ as $$BaseLayout } from '../../../chunks/BaseLayout_BcOiT_WO.mjs';
-import { $ as $$ArticleCard } from '../../../chunks/ArticleCard_CcUFaCM3.mjs';
-import { $ as $$CategoryFilter } from '../../../chunks/CategoryFilter_CLdfBxvd.mjs';
-import { b as getAllCategories, c as getCategoryBySlug, d as getPostsByCategory } from '../../../chunks/wix_BWxTjKMc.mjs';
+import { $ as $$BaseLayout } from '../../../chunks/BaseLayout_DJf27ioN.mjs';
+import { $ as $$ArticleCard } from '../../../chunks/ArticleCard_FRet93lY.mjs';
+import { $ as $$CategoryFilter } from '../../../chunks/CategoryFilter_BJEchRLL.mjs';
+import { b as getAllCategories, c as getCategoryBySlug, d as getPostsByCategory } from '../../../chunks/wix_urwRVrj4.mjs';
 export { renderers } from '../../../renderers.mjs';
 
-const $$Astro = createAstro("https://blog-pribadi.vercel.app");
+const $$Astro = createAstro("https://seputar-redaksi.vercel.app");
 const $$cat = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$cat;

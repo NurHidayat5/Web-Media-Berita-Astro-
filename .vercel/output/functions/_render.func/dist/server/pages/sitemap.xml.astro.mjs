@@ -1,4 +1,4 @@
-import { e as getAllPosts, b as getAllCategories } from '../chunks/wix_BWxTjKMc.mjs';
+import { e as getAllPosts, b as getAllCategories } from '../chunks/wix_urwRVrj4.mjs';
 export { renderers } from '../renderers.mjs';
 
 const GET = async ({ site }) => {

@@ -1,11 +1,11 @@
 /* empty css                                    */
 import { e as createAstro, f as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead, h as addAttribute, l as Fragment, u as unescapeHTML } from '../../chunks/astro/server_D-iz1OF6.mjs';
 import 'piccolore';
-import { $ as $$BaseLayout } from '../../chunks/BaseLayout_BcOiT_WO.mjs';
-import { g as getPostBySlug, a as getPostContent, b as getAllCategories } from '../../chunks/wix_BWxTjKMc.mjs';
+import { $ as $$BaseLayout } from '../../chunks/BaseLayout_DJf27ioN.mjs';
+import { g as getPostBySlug, a as getPostContent, b as getAllCategories } from '../../chunks/wix_urwRVrj4.mjs';
 export { renderers } from '../../renderers.mjs';
 
-const $$Astro = createAstro("https://blog-pribadi.vercel.app");
+const $$Astro = createAstro("https://seputar-redaksi.vercel.app");
 const $$slug = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$slug;

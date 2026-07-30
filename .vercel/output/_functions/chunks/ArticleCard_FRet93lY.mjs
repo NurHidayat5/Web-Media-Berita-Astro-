@@ -2,7 +2,7 @@ import { e as createAstro, f as createComponent, m as maybeRenderHead, h as addA
 import 'piccolore';
 import 'clsx';
 
-const $$Astro = createAstro("https://blog-pribadi.vercel.app");
+const $$Astro = createAstro("https://seputar-redaksi.vercel.app");
 const $$ArticleCard = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$ArticleCard;

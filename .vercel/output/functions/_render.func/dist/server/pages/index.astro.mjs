@@ -1,18 +1,18 @@
 /* empty css                                 */
 import { e as createAstro, f as createComponent, r as renderTemplate, m as maybeRenderHead, k as renderComponent, h as addAttribute } from '../chunks/astro/server_D-iz1OF6.mjs';
 import 'piccolore';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_BcOiT_WO.mjs';
-import { $ as $$ArticleCard } from '../chunks/ArticleCard_CcUFaCM3.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_DJf27ioN.mjs';
+import { $ as $$ArticleCard } from '../chunks/ArticleCard_FRet93lY.mjs';
 import 'clsx';
 /* empty css                                 */
-import { e as getAllPosts, b as getAllCategories } from '../chunks/wix_BWxTjKMc.mjs';
+import { e as getAllPosts, b as getAllCategories } from '../chunks/wix_urwRVrj4.mjs';
 export { renderers } from '../renderers.mjs';
 
 var __freeze = Object.freeze;
 var __defProp = Object.defineProperty;
 var __template = (cooked, raw) => __freeze(__defProp(cooked, "raw", { value: __freeze(cooked.slice()) }));
 var _a;
-const $$Astro = createAstro("https://blog-pribadi.vercel.app");
+const $$Astro = createAstro("https://seputar-redaksi.vercel.app");
 const $$AdsterraAd = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$AdsterraAd;
@@ -43,7 +43,7 @@ const $$Index = createComponent(async ($$result, $$props, $$slots) => {
   const editorsPickPosts = allPosts.slice(9, 12);
   const latestPosts = allPosts.slice(12, 18);
   allPosts.slice(18);
-  return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": "Seputar Redaksi - Berita Terkini & Terpercaya", "description": "Portal berita terpercaya seputar teknologi, bisnis, dan gaya hidup.", "data-astro-cid-j7pv25f6": true }, { "default": async ($$result2) => renderTemplate`  ${maybeRenderHead()}<div class="bg-red-700 text-white text-sm py-2" data-astro-cid-j7pv25f6> <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center" data-astro-cid-j7pv25f6> <span class="bg-white text-red-700 font-bold px-3 py-1 rounded-sm uppercase tracking-wider text-xs mr-4 shrink-0" data-astro-cid-j7pv25f6>
+  return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": "Seputar Redaksi - Berita Terkini & Terpercaya", "description": "Portal berita terpercaya seputar pertanian (Agriculture) dan IoT.", "data-astro-cid-j7pv25f6": true }, { "default": async ($$result2) => renderTemplate`  ${maybeRenderHead()}<div class="bg-red-700 text-white text-sm py-2" data-astro-cid-j7pv25f6> <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center" data-astro-cid-j7pv25f6> <span class="bg-white text-red-700 font-bold px-3 py-1 rounded-sm uppercase tracking-wider text-xs mr-4 shrink-0" data-astro-cid-j7pv25f6>
 Breaking News
 </span> <div class="overflow-hidden whitespace-nowrap flex-1 relative" data-astro-cid-j7pv25f6> <div class="animate-marquee inline-block" data-astro-cid-j7pv25f6> ${rawPosts.slice(0, 5).map((post) => renderTemplate`<a${addAttribute(`/blog/${post.slug}`, "href")} class="mx-4 hover:underline" data-astro-cid-j7pv25f6>
 • ${post.title} </a>`)} </div> </div> </div> </div>  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6" data-astro-cid-j7pv25f6> <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8" data-astro-cid-j7pv25f6> <!-- Main Content (Kiri) --> <div class="lg:col-span-8" data-astro-cid-j7pv25f6> <!-- Headline Section --> ${heroPost && renderTemplate`<div class="mb-8 border-b border-gray-200 pb-8" data-astro-cid-j7pv25f6> <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 gap-y-10" data-astro-cid-j7pv25f6> <div class="sm:col-span-3 border-b border-gray-200 pb-6" data-astro-cid-j7pv25f6> ${renderComponent($$result2, "ArticleCard", $$ArticleCard, { ...heroPost, "layout": "hero", "data-astro-cid-j7pv25f6": true })} </div> ${subheroPosts.map((post) => renderTemplate`<div class="col-span-1 border-b border-gray-200 pb-6" data-astro-cid-j7pv25f6> ${renderComponent($$result2, "ArticleCard", $$ArticleCard, { ...post, "layout": "grid", "data-astro-cid-j7pv25f6": true })} </div>`)} </div> </div>`} <!-- Latest News --> ${latestPosts.length > 0 && renderTemplate`<div class="mb-8" data-astro-cid-j7pv25f6> <div class="flex items-center justify-between border-b-2 border-red-600 mb-4 pb-2" data-astro-cid-j7pv25f6> <h2 class="text-xl sm:text-2xl font-black text-gray-900 uppercase" data-astro-cid-j7pv25f6>Berita Terbaru</h2> <a href="/blog" class="text-sm font-bold text-red-600 hover:text-red-700" data-astro-cid-j7pv25f6>Lihat Semua &raquo;</a> </div> <div class="space-y-6" data-astro-cid-j7pv25f6> ${latestPosts.map((post) => renderTemplate`${renderComponent($$result2, "ArticleCard", $$ArticleCard, { ...post, "layout": "list", "data-astro-cid-j7pv25f6": true })}`)} </div> </div>`} <!-- Category Blocks --> ${categories.slice(0, 5).map((cat) => {

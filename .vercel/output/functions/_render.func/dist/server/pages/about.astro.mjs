@@ -1,10 +1,10 @@
 /* empty css                                 */
 import { e as createAstro, f as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_D-iz1OF6.mjs';
 import 'piccolore';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_BcOiT_WO.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_DJf27ioN.mjs';
 export { renderers } from '../renderers.mjs';
 
-const $$Astro = createAstro("https://blog-pribadi.vercel.app");
+const $$Astro = createAstro("https://seputar-redaksi.vercel.app");
 const $$About = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$About;

@@ -1,7 +1,7 @@
 import { createClient, OAuthStrategy } from '@wix/sdk';
 import { categories, posts } from '@wix/blog';
 
-const __vite_import_meta_env__ = {"ASSETS_PREFIX": undefined, "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SITE": "https://blog-pribadi.vercel.app", "SSR": true};
+const __vite_import_meta_env__ = {"ASSETS_PREFIX": undefined, "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SITE": "https://seputar-redaksi.vercel.app", "SSR": true};
 function getEnv(key) {
   if (typeof import.meta !== "undefined" && Object.assign(__vite_import_meta_env__, { WIX_SITE_URL: "https://nurhidayatttyattt.wixsite.com/mertani-dev", WIX_CLIENT_ID: "e089a042-d4ea-4499-b818-7cf005773e82" })) {
     return Object.assign(__vite_import_meta_env__, { WIX_SITE_URL: "https://nurhidayatttyattt.wixsite.com/mertani-dev", WIX_CLIENT_ID: "e089a042-d4ea-4499-b818-7cf005773e82" })[key] || "";
@@ -122,7 +122,7 @@ async function getAllPosts() {
         coverImage: getWixImageUrl(rawImage),
         category: catMap.get(post.categoryIds?.[0]) || "Lainnya",
         publishDate: post.firstPublishedDate ? post.firstPublishedDate.toString() : "",
-        author: "Hidayat",
+        author: "Tim Seputar Redaksi",
         url: `${WIX_SITE_URL}/post/${post.slug}`
       };
     });
