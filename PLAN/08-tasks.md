@@ -41,21 +41,22 @@
 6. Redesign blog ala media profesional
 7. Buat public/ + favicon + OG placeholder
 
-## Phase 6: Deployment ⏳ (Belum)
+## Phase 6: Deployment ✅ (Selesai)
 1. Initialize git repo
 2. Create .gitignore
 3. Push to GitHub
 4. Import to Vercel
 5. Add environment variables
 6. Deploy and test
+7. Setup Deploy Hooks (Wix to Vercel)
 
-## Phase 7: Testing & Polish ⏳ (Belum)
+## Phase 7: Testing & Polish ✅ (Selesai)
 1. Test all pages
-2. Check SEO with Google Rich Results
-3. Run Lighthouse audit
-4. Fix any issues
-5. Final polish
+2. Check SEO with Google Rich Results (Added JSON-LD Article)
+3. Run Performance optimization (Added in-memory cache & View Transitions)
+4. Fix any issues (Fixed category filtering, image duplicates, bad URLs)
+5. Final polish (Adsterra banner added, mobile UI optimized)
 
 ---
 
-**Status:** Phase 6 — Deployment (siap push ke GitHub & deploy ke Vercel)
+**Status:** Project Selesai — Masuk masa pemeliharaan & fitur tambahan opsional (Sitemap dll).
