@@ -1,7 +1,7 @@
 /* empty css                                 */
 import { e as createAstro, f as createComponent, r as renderTemplate, m as maybeRenderHead, k as renderComponent, h as addAttribute } from '../chunks/astro/server_D-iz1OF6.mjs';
 import 'piccolore';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_Bp3wSQoU.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_BcOiT_WO.mjs';
 import { $ as $$ArticleCard } from '../chunks/ArticleCard_CcUFaCM3.mjs';
 import 'clsx';
 /* empty css                                 */

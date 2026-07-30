@@ -77,17 +77,14 @@ const jsonLd = type === 'article'
 <meta name="google-site-verification" content="dkWCjDLMrw1OXd2eWD5iJ7-KnrXtzu86RaJKh-XQWos" />
 
 <!-- Google Analytics (GA4) -->
-{import.meta.env.PUBLIC_GA_ID && (
-  <>
-    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_ID}`}></script>
-    <script is:inline set:html={`
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${import.meta.env.PUBLIC_GA_ID}');
-    `} />
-  </>
-)}
+<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-GXV8R8ERNM"></script>
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GXV8R8ERNM');
+</script>
 
 <title>{siteTitle}</title>
 <meta name="description" content={description} />
