@@ -65,3 +65,53 @@
 
 **Status:** Phase C — Cleanup & Konsistensi
 **Next Step:** Update semua file PLAN untuk konsistensi dokumentasi
+
+---
+
+## Sesi: 30 Juli 2026 — Fix SEO, Mobile, Kategori Duplikat & Filter
+
+### Bug yang Diperbaiki
+
+#### 🔴 Fix Kritis: Filter Kategori Tidak Bekerja
+- **Root cause:** URL `/blog/kategori/` di homepage ≠ route `/blog/category/`
+- ✅ Fix semua link kategori di `index.astro` → `/blog/category/${cat.slug}`
+- ✅ Fix semua link kategori di `Header.astro` (desktop nav + mobile menu) → `/blog/category/`
+- ✅ Fix `[cat].astro` — ganti filter manual `post.category.slugify()` dengan `getPostsByCategory(cat)` dari lib
+
+#### 🔴 Fix Kritis: Logika Filter Kategori Salah
+- **Root cause:** Manual slugify nama kategori tidak selalu match slug asli dari Wix
+- ✅ Upgrade `getPostsByCategory()` di `wix.ts` — lookup by slug (case-insensitive), filter by name
+- ✅ Pass `categoryData` via `getStaticPaths props` agar tidak perlu double-fetch
+
+#### 🟡 Fix: Duplikat Kategori
+- **Root cause:** Wix mengembalikan kategori dengan nama sama tapi ID berbeda
+- ✅ Tambah deduplication di `getAllCategories()` berdasarkan `label` (nama) — pakai `Set<string>`
+- ✅ Tambah `getCategoryBySlug()` helper baru
+
+#### 🟡 Fix: URL Kategori Salah di Halaman Artikel
+- ✅ Fix `[slug].astro` — gunakan `getAllCategories()` untuk cari slug asli Wix, bukan manual slugify
+- ✅ Tambah breadcrumb navigasi: Beranda › Kategori › Judul Artikel
+
+#### 🟢 SEO Improvements
+- ✅ Upgrade `SEOHead.astro` — tambah props `type`, `publishDate`, `author`, `keywords`
+- ✅ Tambah JSON-LD **Article** schema untuk halaman artikel
+- ✅ Tambah JSON-LD **WebSite** schema + SearchAction untuk homepage
+- ✅ Tambah `og:type = article` untuk halaman artikel
+- ✅ Tambah `article:published_time` dan `article:author` Open Graph tags
+- ✅ Tambah `robots` meta tag (index, follow)
+- ✅ Tambah `og:locale = id_ID`, `og:image:width/height`
+- ✅ Fix `BaseLayout.astro` — tambah props `type`, `publishDate`, `author`
+
+#### 🟢 Mobile Friendly Improvements
+- ✅ Update `global.css` — touch target minimum 44px (WCAG), `-webkit-text-size-adjust: 100%`
+- ✅ Tambah safe area insets untuk iPhone notch/Dynamic Island
+- ✅ Semua gambar responsif secara default (`max-width: 100%`)
+- ✅ Padding konsisten `px-4 sm:px-6` (bukan `px-6` saja)
+- ✅ Tambah `line-clamp` utilities untuk text overflow
+
+#### 🟢 UX Improvements
+- ✅ Halaman kategori sekarang menampilkan jumlah artikel
+- ✅ Tambah empty state yang lebih baik dengan link "Lihat semua artikel"
+- ✅ Halaman artikel: cover image pakai `loading="eager"` (above the fold)
+- ✅ Layout artikel detail diperbarui (breadcrumb, category pill, footer actions)
+

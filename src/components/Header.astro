@@ -1,71 +1,101 @@
 ---
-const navItems = [
-  { label: 'Beranda', href: '/' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Tentang', href: '/about' },
-];
+import { getAllCategories } from '../lib/wix';
 
 const currentPath = Astro.url.pathname;
+
+const today = new Date().toLocaleDateString('id-ID', {
+  weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+});
+
+const categories = await getAllCategories();
+// Menampilkan maksimal 8 kategori di header
+const visibleCategories = categories.slice(0, 8);
 ---
 
-<header class="border-b border-gray-200 bg-white sticky top-0 z-50">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="flex items-center justify-between h-16">
+<!-- Top Bar (tanggal + sosmed) -->
+<div class="bg-gray-900 text-gray-400 text-xs py-1.5 hidden sm:block">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+    <span>{today}</span>
+    <div class="flex items-center gap-4">
+      <a href="/about" class="hover:text-white transition-colors">Tentang Kami</a>
+      <span class="text-gray-600">|</span>
+      <a href="#" class="hover:text-white transition-colors">Facebook</a>
+      <a href="#" class="hover:text-white transition-colors">YouTube</a>
+      <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<!-- Logo Bar -->
+<header class="bg-white sticky top-0 z-50 shadow-sm border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16 sm:h-20">
+      <!-- Logo -->
       <a href="/" class="flex items-center gap-2">
-        <span class="text-2xl font-extrabold tracking-tight text-gray-900">Hidayat</span>
-        <span class="hidden sm:inline text-xs font-medium text-gray-400 border-l border-gray-200 pl-2 ml-1">Blog & Portfolio</span>
+        <div class="bg-red-600 text-white font-extrabold text-xl px-3 py-1.5 rounded leading-none tracking-tight">
+          Seputar Redaksi
+        </div>
       </a>
 
-      <nav class="hidden sm:flex items-center gap-8">
-        {navItems.map((item) => (
-          <a
-            href={item.href}
-            class={`text-sm font-medium transition-colors ${
-              currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
-                ? 'text-blue-600'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            {item.label}
-          </a>
-        ))}
-      </nav>
+      <!-- Search (desktop) -->
+      <form action="/search" method="get" class="hidden md:flex items-center bg-gray-100 rounded-lg px-4 py-2 gap-2 flex-1 max-w-md mx-8">
+        <svg class="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <input id="search-input-desktop" type="text" name="q" placeholder="Cari berita..." autocomplete="off" class="bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none flex-1 w-full" />
+      </form>
 
-      <button
-        id="mobile-menu-btn"
-        class="sm:hidden p-2 -mr-2 text-gray-600 hover:text-gray-900"
-        aria-label="Toggle menu"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" class="sm:hidden p-2 text-gray-700 hover:text-red-600" aria-label="Toggle menu">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
     </div>
   </div>
 
-  <div id="mobile-menu" class="hidden sm:hidden border-t border-gray-100 bg-white">
-    <nav class="max-w-6xl mx-auto px-6 py-4 space-y-1">
-      {navItems.map((item) => (
-        <a
-          href={item.href}
-          class={`block px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-            currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
-              ? 'text-blue-600 bg-blue-50'
-              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-          }`}
-        >
-          {item.label}
+  <!-- Kategori Bar (Desktop) -->
+  <div class="hidden sm:block border-t border-gray-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <nav class="flex items-center gap-6 overflow-x-auto py-3 hide-scrollbar">
+        <a href="/" class={`text-sm font-bold uppercase transition-colors whitespace-nowrap ${currentPath === '/' ? 'text-red-600' : 'text-gray-700 hover:text-red-600'}`}>HOME</a>
+        <a href="/blog" class={`text-sm font-bold uppercase transition-colors whitespace-nowrap ${currentPath === '/blog' ? 'text-red-600' : 'text-gray-700 hover:text-red-600'}`}>TERKINI</a>
+        {visibleCategories.map(cat => (
+          <a href={`/blog/category/${cat.slug}`} class={`text-sm font-bold uppercase transition-colors whitespace-nowrap ${currentPath.includes(cat.slug) ? 'text-red-600' : 'text-gray-700 hover:text-red-600'}`}>
+            {cat.name}
+          </a>
+        ))}
+      </nav>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden sm:hidden border-t border-gray-100 bg-white shadow-lg absolute w-full left-0">
+    <nav class="px-4 pt-2 pb-4 space-y-1 max-h-[70vh] overflow-y-auto">
+      <a href="/" class="block px-3 py-2 text-base font-bold uppercase text-gray-800 hover:text-red-600 hover:bg-gray-50 rounded-md">Home</a>
+      <a href="/blog" class="block px-3 py-2 text-base font-bold uppercase text-gray-800 hover:text-red-600 hover:bg-gray-50 rounded-md">Terkini</a>
+      {categories.map(cat => (
+        <a href={`/blog/category/${cat.slug}`} class="block px-3 py-2 text-base font-bold uppercase text-gray-800 hover:text-red-600 hover:bg-gray-50 rounded-md">
+          {cat.name}
         </a>
       ))}
     </nav>
   </div>
 </header>
 
+<style>
+  /* Sembunyikan scrollbar untuk menu kategori desktop tetapi bisa di-scroll */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
 <script>
   const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
-
-  btn?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
-  });
+  btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
 </script>

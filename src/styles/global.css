@@ -10,21 +10,60 @@
   }
 
   ::selection {
-    background-color: #2563EB;
+    background-color: #dc2626;
     color: white;
   }
 
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%; /* Cegah auto-zoom pada iOS */
+  }
+
+  /* Semua gambar responsif secara default */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Minimal touch target size 44px untuk aksesibilitas mobile */
+  a, button {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Reset untuk elemen blok agar tidak terpengaruh min-height inline */
+  p a, article a, nav a, .prose a {
+    min-height: unset;
+    display: inline;
   }
 }
 
 @layer components {
   .container-blog {
-    @apply max-w-3xl mx-auto px-6;
+    @apply max-w-3xl mx-auto px-4 sm:px-6;
   }
 
   .container-wide {
-    @apply max-w-6xl mx-auto px-6;
+    @apply max-w-6xl mx-auto px-4 sm:px-6;
   }
+
+  /* Line clamp untuk judul yang panjang */
+  .line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+  .line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+
+  /* Sembunyikan scrollbar horizontal tapi tetap bisa scroll */
+  .scroll-x-hidden {
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scroll-x-hidden::-webkit-scrollbar { display: none; }
+}
+
+@layer utilities {
+  /* Safe area untuk device dengan notch/Dynamic Island */
+  .safe-top { padding-top: env(safe-area-inset-top); }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
 }

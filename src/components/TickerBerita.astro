@@ -1,0 +1,61 @@
+---
+import type { BlogPost } from '../lib/wix';
+
+interface Props {
+  posts: BlogPost[];
+}
+
+const { posts } = Astro.props;
+---
+
+{posts.length > 0 && (
+  <div class="ticker-wrapper bg-red-600 text-white py-2 overflow-hidden relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-3">
+      <!-- Label Breaking News -->
+      <span class="flex-shrink-0 bg-white text-red-600 text-xs font-black uppercase tracking-widest px-2.5 py-1 rounded z-10 relative">
+        Breaking
+      </span>
+
+      <!-- Ticker Track -->
+      <div class="ticker-overflow overflow-hidden flex-1 relative">
+        <div class="ticker-track flex items-center gap-0 whitespace-nowrap will-change-transform">
+          {/* Duplikat 2x agar loop mulus */}
+          {[...posts, ...posts].map((post, i) => (
+            <a
+              href={`/blog/${post.slug}`}
+              class="ticker-item inline-flex items-center gap-2 pr-10 text-sm font-medium hover:text-yellow-200 transition-colors flex-shrink-0"
+            >
+              <span class="text-red-200 text-xs select-none">●</span>
+              <span class="truncate max-w-xs sm:max-w-sm">{post.title}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+<style>
+  .ticker-wrapper {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .ticker-overflow {
+    mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+  }
+
+  .ticker-track {
+    animation: ticker-scroll 60s linear infinite;
+  }
+
+  .ticker-wrapper:hover .ticker-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes ticker-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>

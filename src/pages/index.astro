@@ -1,94 +1,217 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-import { getAllPosts } from '../lib/wix';
+import AdsterraAd from '../components/AdsterraAd.astro';
+import { getAllPosts, getAllCategories } from '../lib/wix';
 
-const allPosts = await getAllPosts();
-const latestPosts = allPosts.slice(0, 6);
-const featuredPost = allPosts[0];
-const secondaryPosts = allPosts.slice(1, 4);
-const morePosts = allPosts.slice(4, 7);
+const rawPosts = await getAllPosts();
+const categories = await getAllCategories();
+
+// --- DUMMY DATA UNTUK MEMBUAT TAMPILAN "RAMAI" ---
+// Jika artikel kurang dari 30, kita gandakan artikel yang ada agar layout terlihat penuh.
+let allPosts = [...rawPosts];
+if (allPosts.length > 0 && allPosts.length < 30) {
+  while (allPosts.length < 30) {
+    allPosts = [...allPosts, ...rawPosts];
+  }
+}
+// -------------------------------------------------
+
+// Membagi berita untuk berbagai section
+const heroPost = allPosts[0];
+const subheroPosts = allPosts.slice(1, 4); // 3 artikel pendukung (subhero)
+const sidebarPosts = allPosts.slice(4, 9); // 5 artikel untuk sidebar
+const editorsPickPosts = allPosts.slice(9, 12); // 3 artikel untuk pilihan redaksi
+const latestPosts = allPosts.slice(12, 18); // 6 artikel list
+const morePosts = allPosts.slice(18); // sisanya
 ---
 
-<BaseLayout title="Beranda" description="Blog pribadi Hidayat — tentang teknologi, pemrograman, dan pengembangan web.">
-  <!-- Hero -->
-  <section class="bg-gray-900 text-white">
-    <div class="max-w-6xl mx-auto px-6 py-16 sm:py-24">
-      <div class="max-w-3xl">
-        <p class="text-blue-400 text-sm font-semibold uppercase tracking-wider mb-4">Selamat Datang</p>
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-          Halo, saya <span class="text-blue-400">Hidayat</span>
-        </h1>
-        <p class="text-lg sm:text-xl text-gray-300 leading-relaxed mb-8 max-w-2xl">
-          Saya menulis tentang teknologi monitoring lingkungan, data sensing, solusi IoT, dan pengembangan web modern.
-        </p>
-        <div class="flex flex-wrap gap-4">
-          <a
-            href="/blog"
-            class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Baca Artikel
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </a>
-          <a
-            href="/about"
-            class="inline-flex items-center px-6 py-3 border border-gray-600 text-gray-300 font-semibold rounded-lg hover:border-gray-400 hover:text-white transition-colors"
-          >
-            Tentang Saya
-          </a>
+<BaseLayout title="Seputar Redaksi - Berita Terkini & Terpercaya" description="Portal berita terpercaya seputar teknologi, bisnis, dan gaya hidup.">
+  
+  <!-- Ticker Breaking News -->
+  <div class="bg-red-700 text-white text-sm py-2">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center">
+      <span class="bg-white text-red-700 font-bold px-3 py-1 rounded-sm uppercase tracking-wider text-xs mr-4 shrink-0">
+        Breaking News
+      </span>
+      <div class="overflow-hidden whitespace-nowrap flex-1 relative">
+        <div class="animate-marquee inline-block">
+          {rawPosts.slice(0, 5).map(post => (
+            <a href={`/blog/${post.slug}`} class="mx-4 hover:underline">
+              • {post.title}
+            </a>
+          ))}
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Latest Articles -->
-  {latestPosts.length > 0 && (
-    <section class="py-16 sm:py-20">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="flex items-center justify-between mb-10">
-          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Artikel Terbaru</h2>
-          <a href="/blog" class="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
-            Lihat Semua &rarr;
-          </a>
-        </div>
+  <style>
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .animate-marquee {
+      animation: marquee 25s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+  </style>
 
-        {featuredPost && (
-          <div class="mb-10">
-            <ArticleCard {...featuredPost} featured={true} />
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+      
+      <!-- Main Content (Kiri) -->
+      <div class="lg:col-span-8">
+        
+        <!-- Headline Section -->
+        {heroPost && (
+          <div class="mb-8 border-b border-gray-200 pb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 gap-y-10">
+              <div class="sm:col-span-3 border-b border-gray-200 pb-6">
+                <ArticleCard {...heroPost} layout="hero" />
+              </div>
+              {subheroPosts.map(post => (
+                <div class="col-span-1 border-b border-gray-200 pb-6">
+                  <ArticleCard {...post} layout="grid" />
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
-        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {secondaryPosts.map((post) => (
-            <ArticleCard {...post} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
+        <!-- Latest News -->
+        {latestPosts.length > 0 && (
+          <div class="mb-8">
+            <div class="flex items-center justify-between border-b-2 border-red-600 mb-4 pb-2">
+              <h2 class="text-xl sm:text-2xl font-black text-gray-900 uppercase">Berita Terbaru</h2>
+              <a href="/blog" class="text-sm font-bold text-red-600 hover:text-red-700">Lihat Semua &raquo;</a>
+            </div>
+            <div class="space-y-6">
+              {latestPosts.map(post => (
+                <ArticleCard {...post} layout="list" />
+              ))}
+            </div>
+          </div>
+        )}
+        
+        <!-- Category Blocks -->
+        {categories.slice(0, 5).map(cat => {
+          const catPosts = allPosts.filter(p => p.category === cat.name).slice(0, 4);
+          if (catPosts.length === 0) return null;
+          
+          return (
+            <div class="mb-12">
+              <div class="flex items-center justify-between border-b-2 border-gray-900 mb-6 pb-2">
+                <h2 class="text-xl sm:text-2xl font-black text-gray-900 uppercase">{cat.name}</h2>
+                <a href={`/blog/category/${cat.slug}`} class="text-sm font-bold text-red-600 hover:text-red-700">Lihat Semua &raquo;</a>
+              </div>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 gap-y-10">
+                {catPosts.map((post, i) => {
+                  // Post pertama jadi besar
+                  if (i === 0) {
+                    return (
+                      <div class="sm:col-span-3 border-b border-gray-200 pb-6">
+                        <ArticleCard {...post} layout="hero" />
+                      </div>
+                    );
+                  } 
+                  // Post ke 2, 3, 4 berjajar sejajar (3 kolom)
+                  else {
+                    return (
+                      <div class="col-span-1 border-b border-gray-200 pb-6">
+                        <ArticleCard {...post} layout="grid" />
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            </div>
+          );
+        })}
 
-  <!-- More Articles -->
-  {morePosts.length > 0 && (
-    <section class="py-16 bg-gray-50">
-      <div class="max-w-6xl mx-auto px-6">
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-10">Artikel Lainnya</h2>
-        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {morePosts.map((post) => (
-            <ArticleCard {...post} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
+        {allPosts.length === 0 && (
+          <div class="text-center py-20">
+            <p class="text-gray-500 text-lg">Belum ada berita yang dipublikasikan.</p>
+          </div>
+        )}
 
-  <!-- Empty State -->
-  {latestPosts.length === 0 && (
-    <section class="py-20">
-      <div class="max-w-6xl mx-auto px-6 text-center">
-        <p class="text-gray-500 text-lg">Belum ada artikel yang dipublikasikan.</p>
       </div>
-    </section>
-  )}
+
+      <!-- Sidebar (Kanan) -->
+      <aside class="lg:col-span-4 space-y-8">
+        
+        <!-- Terpopuler -->
+        {sidebarPosts.length > 0 && (
+          <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+            <h2 class="text-lg font-black text-gray-900 uppercase border-b-2 border-red-600 pb-2 mb-5">
+              Terpopuler
+            </h2>
+            <div class="space-y-5">
+              {sidebarPosts.map((post, index) => (
+                <div class="flex gap-4">
+                  <div class="text-4xl font-black text-gray-300 leading-none italic w-6">{index + 1}</div>
+                  <div class="flex-1">
+                    <ArticleCard {...post} layout="compact" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Topik Hangat (Kategori) -->
+        {categories.length > 0 && (
+          <div>
+            <h2 class="text-lg font-black text-gray-900 uppercase border-b-2 border-red-600 pb-2 mb-5">
+              Topik Hangat
+            </h2>
+            <div class="flex flex-wrap gap-2">
+              {categories.slice(0, 10).map(cat => (
+                <a href={`/blog/category/${cat.slug}`} class="px-4 py-2 bg-gray-100 hover:bg-red-600 hover:text-white text-gray-800 text-xs font-bold uppercase rounded transition-colors">
+                  {cat.name}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Pilihan Redaksi -->
+        {editorsPickPosts.length > 0 && (
+          <div>
+            <h2 class="text-lg font-black text-gray-900 uppercase border-b-2 border-red-600 pb-2 mb-5">
+              Pilihan Redaksi
+            </h2>
+            <div class="space-y-6">
+              {editorsPickPosts.map(post => (
+                <ArticleCard {...post} layout="subhero" />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Newsletter / Langganan -->
+        <div class="bg-red-600 text-white p-6 rounded-lg text-center">
+          <h3 class="text-xl font-bold mb-2">Langganan Berita</h3>
+          <p class="text-red-100 text-sm mb-4">Dapatkan update berita pilihan langsung ke inbox Anda.</p>
+          <form class="flex flex-col gap-3" onsubmit="event.preventDefault();">
+            <input type="email" placeholder="Alamat Email" class="w-full px-4 py-2 text-gray-900 rounded focus:outline-none" required />
+            <button type="submit" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 rounded transition-colors">
+              Daftar Sekarang
+            </button>
+          </form>
+        </div>
+
+        <!-- Banner Placeholder (Sticky) -->
+        <div class="sticky top-28">
+          <AdsterraAd format="banner" />
+        </div>
+
+      </aside>
+      
+    </div>
+  </div>
+
 </BaseLayout>

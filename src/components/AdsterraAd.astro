@@ -1,0 +1,33 @@
+---
+interface Props {
+  format?: 'banner' | 'native' | 'popunder';
+}
+
+const { format = 'banner' } = Astro.props;
+---
+
+<div class="flex justify-center w-full overflow-hidden my-4 bg-gray-50 rounded-lg p-2 border border-gray-100">
+  <div class="max-w-full overflow-x-auto text-center hide-scrollbar flex justify-center">
+    <!-- Script Iklan Adsterra 728x90 -->
+    <script is:inline>
+      atOptions = {
+        'key' : '771ae998ff62a9c2fe1a45927e2f18a4',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script is:inline src="https://www.highperformanceformat.com/771ae998ff62a9c2fe1a45927e2f18a4/invoke.js"></script>
+  </div>
+</div>
+
+<style>
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
