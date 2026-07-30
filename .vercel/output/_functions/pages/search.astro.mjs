@@ -1,7 +1,8 @@
 /* empty css                                 */
 import { f as createComponent, r as renderTemplate, n as defineScriptVars, k as renderComponent, m as maybeRenderHead } from '../chunks/astro/server_D-iz1OF6.mjs';
 import 'piccolore';
-import { e as getAllPosts, $ as $$BaseLayout } from '../chunks/BaseLayout_CyUfhVUD.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_DuoPP4Zl.mjs';
+import { e as getAllPosts } from '../chunks/wix_BWxTjKMc.mjs';
 export { renderers } from '../renderers.mjs';
 
 var __freeze = Object.freeze;

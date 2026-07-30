@@ -1,10 +1,11 @@
 /* empty css                                 */
 import { e as createAstro, f as createComponent, r as renderTemplate, m as maybeRenderHead, k as renderComponent, h as addAttribute } from '../chunks/astro/server_D-iz1OF6.mjs';
 import 'piccolore';
-import { e as getAllPosts, b as getAllCategories, $ as $$BaseLayout } from '../chunks/BaseLayout_CyUfhVUD.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_DuoPP4Zl.mjs';
 import { $ as $$ArticleCard } from '../chunks/ArticleCard_CcUFaCM3.mjs';
 import 'clsx';
 /* empty css                                 */
+import { e as getAllPosts, b as getAllCategories } from '../chunks/wix_BWxTjKMc.mjs';
 export { renderers } from '../renderers.mjs';
 
 var __freeze = Object.freeze;

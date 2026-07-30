@@ -70,22 +70,16 @@ Dokumen ini mencatat daftar perbaikan dan penambahan fitur yang diminta, agar ti
 - Key lama dihapus, diganti key baru sesuai permintaan user.
 
 | 11 | Mode Server Real-Time (SSR) | ✅ Selesai (Menggunakan `@astrojs/vercel` mode Server) |
+| 12 | SEO Complete (`robots.txt` & `sitemap.xml`) | ✅ Selesai (Dynamic sitemap.xml + robots.txt) |
 
 ---
 
 ## Detail Perbaikan
 
-### 11. Mode Server Real-Time (SSR) untuk Update Otomatis
-- **Permintaan:** Pengguna ingin agar setiap aksi (Tambah, Edit, Hapus artikel) di Wix langsung otomatis terupdate di website tanpa perlu re-deploy manual atau webhook.
-- **Solusi:**
-  1. Mengkonfigurasi Astro dari mode Statis (`output: 'static'`) menjadi Mode Server (`output: 'server'`) menggunakan adapter resmi `@astrojs/vercel`.
-  2. Menghapus `getStaticPaths()` di dynamic routes (`[slug].astro` & `[cat].astro`) agar halaman dirender secara dinamis per permintaan.
-  3. Mengatur cache Wix di `wix.ts` menjadi 15 detik.
-- **Hasil:**
-  - ➕ **Tambah Artikel:** Langsung muncul di website secara real-time.
-  - ✏️ **Edit Artikel:** Perubahan teks/gambar langsung terupdate di website secara real-time.
-  - 🗑️ **Hapus Artikel:** Artikel langsung hilang dari website secara real-time.
+### 12. Dukungan Penuh SEO & Crawling
+- **`robots.txt`**: Ditambahkan di `public/robots.txt` untuk mengarahkan Googlebot dan Bingbot.
+- **`sitemap.xml`**: Dibuat secara dinamis di `src/pages/sitemap.xml.ts` yang memuat seluruh URL halaman utama, kategori, dan artikel Wix secara ter-update otomatis.
 
 ---
-*Terakhir diperbarui: 30 Juli 2026, 10:18 WIB*
+*Terakhir diperbarui: 30 Juli 2026, 10:25 WIB*
 
