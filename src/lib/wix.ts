@@ -160,7 +160,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
         coverImage: getWixImageUrl(rawImage),
         category: catMap.get(post.categoryIds?.[0]) || 'Lainnya', 
         publishDate: post.firstPublishedDate ? post.firstPublishedDate.toString() : '',
-        author: 'Hidayat',
+        author: 'Tim Seputar Redaksi',
         url: `${WIX_SITE_URL}/post/${post.slug}`
       };
     });
