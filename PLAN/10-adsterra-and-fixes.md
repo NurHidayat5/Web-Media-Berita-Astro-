@@ -2,40 +2,97 @@
 
 Dokumen ini mencatat daftar perbaikan dan penambahan fitur yang diminta, agar tidak lupa.
 
-| No | Masalah | Status |
+## Ringkasan Status
+
+| No | Masalah / Fitur | Status |
 |----|---------|--------|
 | 1 | Gambar berulang di artikel | ✅ Selesai |
 | 2 | Font judul artikel aneh | ✅ Selesai |
 | 3 | Hapus tombol "Baca di Wix" | ✅ Selesai |
 | 4 | Loading lambat | ✅ Selesai (View Transitions + Cache Dev Server) |
-| 5 | Integrasi Adsterra | ✅ Selesai (Komponen Placeholder Dibuat & Script Dipasang) |
+| 5 | Integrasi Adsterra | ✅ Selesai (Script dipasang & diganti ke key baru) |
 | 6 | Layout Home | ✅ Selesai (Disamakan dengan layout kategori lainnya) |
-
-## 1. Masalah Gambar Berurutan di Artikel
-- **Masalah:** Saat membuka detail artikel, terkadang gambar cover muncul ganda (satu dari cover image, satu lagi dari konten artikel).
-- **Solusi:** Di halaman `[slug].astro`, kita akan menyembunyikan gambar cover image jika gambar tersebut sudah ada di dalam konten (atau sebaliknya).
-
-## 2. Font Judul Artikel Aneh
-- **Masalah:** Font pada judul artikel yang sedang dibuka terlihat aneh (`font-serif` / Merriweather mungkin tidak sesuai selera).
-- **Solusi:** Ganti class `font-serif` menjadi sans-serif standar bawaan Tailwind yang lebih bersih (`font-sans`, `font-extrabold`).
-
-## 3. Hapus Link "Baca di Wix"
-- **Masalah:** Terdapat tombol/link yang mengarahkan pengunjung kembali ke situs Wix asli. Ini mengganggu alur pengunjung.
-- **Solusi:** Hapus elemen link "Baca di Wix" beserta ikonnya dari komponen halaman artikel (`[slug].astro`).
-
-## 4. Loading Pindah Halaman Terasa Lama
-- **Masalah:** Transisi antar halaman (seperti klik kategori atau artikel) terasa lama. Khusus pada mode *development* (`npm run dev`), setiap perpindahan halaman membuat Astro mengambil ulang ratusan artikel langsung dari Wix secara terus-menerus.
-- **Solusi:**
-  1. Menggunakan fitur **View Transitions** dari Astro untuk transisi instan bak aplikasi.
-  2. Menerapkan sistem **Cache In-Memory** di `wix.ts` dengan masa berlaku 5 menit. Hal ini secara drastis mempercepat proses *development* karena data ribuan artikel hanya diambil sesekali saja.
-  - *Catatan:* Pada saat website sudah online (Production Build), pemuatan akan 100% instan karena halamannya bersifat statis.
-
-## 5. Persiapan Pemasangan Iklan Adsterra
-- **Rencana & Solusi:** Komponen iklan `AdsterraAd.astro` telah dibuat dan kode script dari Anda sudah berhasil ditanam menggunakan parameter `is:inline`.
-
-## 6. Layout Berita Utama (Home)
-- **Masalah:** Layout "Headline Section" di posisi paling atas halaman utama berbeda gayanya dengan layout kategori lainnya.
-- **Solusi:** Layout Headline Section (Berita Utama) sudah diubah menggunakan struktur yang sama persis dengan section berita lainnya, yaitu 1 gambar besar (Hero) di bagian atas, dan 3 gambar kecil (Grid) berbaris sejajar di bawahnya.
+| 7 | Push ke GitHub | ✅ Selesai (repo: NurHidayat5/Web-Media-Berita-Astro-) |
+| 8 | Deploy ke Vercel | ✅ Selesai (auto-deploy dari GitHub) |
+| 9 | Navigasi Mobile (Bottom Nav) | ✅ Selesai (4 menu: Beranda, Terkini, Cari, Tentang) |
+| 10 | Ganti Script Iklan Adsterra | ✅ Selesai (key lama → key baru `d82f91...`) |
+| 11 | Deploy Hook (Wix → Vercel) | ⚠️ Belum diatur oleh user (lihat panduan di bawah) |
 
 ---
-*Perubahan ini dicatat dan dieksekusi berdasarkan permintaan bertahap dari pengguna.*
+
+## Detail Perbaikan
+
+### 1. Gambar Berurutan di Artikel
+- **Masalah:** Saat membuka detail artikel, gambar cover muncul ganda.
+- **Solusi:** Hapus blok cover image terpisah di `[slug].astro`. Gambar sekarang hanya muncul sekali dari konten Wix.
+
+### 2. Font Judul Artikel Aneh
+- **Masalah:** Font `font-serif` (Merriweather) tidak cocok.
+- **Solusi:** Hapus class `font-serif`, sekarang menggunakan font Inter (sans-serif) yang konsisten.
+
+### 3. Hapus Link "Baca di Wix"
+- **Masalah:** Ada tombol yang mengarahkan ke Wix.
+- **Solusi:** Hapus seluruh elemen link + ikon "Baca di Wix" dari `[slug].astro`.
+
+### 4. Loading Pindah Halaman Terasa Lama
+- **Masalah:** Navigasi lambat karena fetch ulang data dari Wix setiap halaman.
+- **Solusi:**
+  1. **View Transitions** — navigasi instan ala SPA.
+  2. **Cache In-Memory** di `wix.ts` (TTL 5 menit) — data hanya diambil sekali.
+  - *Catatan:* Di production (Vercel), halaman bersifat statis jadi sudah sangat cepat.
+
+### 5. Integrasi Iklan Adsterra
+- Komponen `AdsterraAd.astro` dibuat dengan `is:inline` agar script eksternal berjalan.
+- **Script awal:** key `771ae998ff62a9c2fe1a45927e2f18a4`
+- **Script diganti (30 Juli):** key `d82f91bac4277090adaaef9711ba534b`
+- Dipasang di sidebar homepage (`index.astro`).
+
+### 6. Layout Berita Utama (Home)
+- Layout Headline Section diseragamkan: 1 hero besar di atas + 3 grid kecil di bawah.
+
+### 7. Push ke GitHub
+- Repository: `https://github.com/NurHidayat5/Web-Media-Berita-Astro-`
+- Branch: `main`
+
+### 8. Deploy ke Vercel
+- Project Name: `web-media-berita-astro`
+- Environment Variables yang diset: `WIX_CLIENT_ID`, `WIX_SITE_URL`
+- Auto-deploy aktif: setiap `git push` ke GitHub, Vercel otomatis build ulang.
+
+### 9. Navigasi Mobile (Bottom Nav Bar)
+- Komponen baru: `MobileNav.astro`
+- 4 menu: Beranda, Terkini, Cari, Tentang
+- Menempel di bawah layar (fixed bottom), hanya tampil di layar kecil (< 640px)
+- Halaman aktif ditandai warna merah
+- Body diberi `pb-16 sm:pb-0` agar konten tidak tertutup nav bar
+
+### 10. Ganti Script Iklan Adsterra
+- Key lama dihapus, diganti key baru sesuai permintaan user.
+
+---
+
+## ⚠️ Yang Belum Dilakukan
+
+### 11. Deploy Hook (Artikel Otomatis Update)
+Website ini bersifat **statis (SSG)**. Artinya, artikel baru di Wix **tidak langsung muncul** kecuali Vercel melakukan build ulang.
+
+**Cara agar artikel baru muncul otomatis:**
+1. Buka Dashboard Vercel → Settings → Git → Deploy Hooks
+2. Buat hook baru (nama: `Update Artikel Wix`, branch: `main`)
+3. Copy URL hook yang dihasilkan
+4. Buka Wix Dashboard → Automations → New Automation
+5. Trigger: Blog → Post Published
+6. Action: Send Webhook → Paste URL Vercel tadi
+7. Aktifkan
+
+**Cara manual (jika Deploy Hook belum diatur):**
+- Buka Dashboard Vercel → pilih project → klik **Redeploy**
+
+### Fitur Opsional Berikutnya
+- [ ] Pasang `@astrojs/sitemap` untuk SEO (Google Search Console)
+- [ ] Pasang Google Analytics
+- [ ] Custom domain (bukan `.vercel.app`)
+
+---
+*Terakhir diperbarui: 30 Juli 2026, 10:03 WIB*
+
