@@ -69,30 +69,23 @@ Dokumen ini mencatat daftar perbaikan dan penambahan fitur yang diminta, agar ti
 ### 10. Ganti Script Iklan Adsterra
 - Key lama dihapus, diganti key baru sesuai permintaan user.
 
----
-
-## ⚠️ Yang Belum Dilakukan
-
-### 11. Deploy Hook (Artikel Otomatis Update)
-Website ini bersifat **statis (SSG)**. Artinya, artikel baru di Wix **tidak langsung muncul** kecuali Vercel melakukan build ulang.
-
-**Cara agar artikel baru muncul otomatis:**
-1. Buka Dashboard Vercel → Settings → Git → Deploy Hooks
-2. Buat hook baru (nama: `Update Artikel Wix`, branch: `main`)
-3. Copy URL hook yang dihasilkan
-4. Buka Wix Dashboard → Automations → New Automation
-5. Trigger: Blog → Post Published
-6. Action: Send Webhook → Paste URL Vercel tadi
-7. Aktifkan
-
-**Cara manual (jika Deploy Hook belum diatur):**
-- Buka Dashboard Vercel → pilih project → klik **Redeploy**
-
-### Fitur Opsional Berikutnya
-- [ ] Pasang `@astrojs/sitemap` untuk SEO (Google Search Console)
-- [ ] Pasang Google Analytics
-- [ ] Custom domain (bukan `.vercel.app`)
+| 11 | Mode Server Real-Time (SSR) | ✅ Selesai (Menggunakan `@astrojs/vercel` mode Server) |
 
 ---
-*Terakhir diperbarui: 30 Juli 2026, 10:03 WIB*
+
+## Detail Perbaikan
+
+### 11. Mode Server Real-Time (SSR) untuk Update Otomatis
+- **Permintaan:** Pengguna ingin agar setiap aksi (Tambah, Edit, Hapus artikel) di Wix langsung otomatis terupdate di website tanpa perlu re-deploy manual atau webhook.
+- **Solusi:**
+  1. Mengkonfigurasi Astro dari mode Statis (`output: 'static'`) menjadi Mode Server (`output: 'server'`) menggunakan adapter resmi `@astrojs/vercel`.
+  2. Menghapus `getStaticPaths()` di dynamic routes (`[slug].astro` & `[cat].astro`) agar halaman dirender secara dinamis per permintaan.
+  3. Mengatur cache Wix di `wix.ts` menjadi 15 detik.
+- **Hasil:**
+  - ➕ **Tambah Artikel:** Langsung muncul di website secara real-time.
+  - ✏️ **Edit Artikel:** Perubahan teks/gambar langsung terupdate di website secara real-time.
+  - 🗑️ **Hapus Artikel:** Artikel langsung hilang dari website secara real-time.
+
+---
+*Terakhir diperbarui: 30 Juli 2026, 10:18 WIB*
 

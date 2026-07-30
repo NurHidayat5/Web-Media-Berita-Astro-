@@ -108,7 +108,7 @@ if (WIX_CLIENT_ID) {
 
 let cachedCategories: Map<string, string> | null = null;
 let categoriesCacheTime = 0;
-const CACHE_TTL = 1000 * 60 * 5; // 5 menit
+const CACHE_TTL = 1000 * 15; // 15 detik untuk update real-time
 
 async function getCategoryMap() {
   if (cachedCategories && (Date.now() - categoriesCacheTime < CACHE_TTL)) return cachedCategories;
