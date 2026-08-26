@@ -25,6 +25,14 @@ const formattedDate = new Date(post.publishDate).toLocaleDateString('id-ID', {
 const siteBase = Astro.site?.href.replace(/\/$/, '') || 'https://seputar-redaksi.vercel.app';
 const canonicalURL = `${siteBase}/blog/${post.slug}`;
 
+// Optimasi URL gambar Wix untuk LCP
+function optimizeWixImage(url: string, width: number, quality = 82): string {
+  if (!url || !url.includes('wixstatic.com')) return url;
+  if (url.includes('/v1/')) return url; // sudah dioptimasi
+  return `${url}/v1/fit/w_${width},q_${quality}/file.webp`;
+}
+const coverImageOptimized = post.coverImage ? optimizeWixImage(post.coverImage, 900) : '';
+
 // BreadcrumbList JSON-LD untuk rich results Google
 const breadcrumbJsonLd = {
   '@context': 'https://schema.org',
@@ -55,11 +63,15 @@ const breadcrumbJsonLd = {
 <BaseLayout
   title={post.title}
   description={post.excerpt}
-  image={post.coverImage}
+  image={coverImageOptimized || post.coverImage}
   type="article"
   publishDate={post.publishDate}
   author={post.author}
 >
+  <!-- Preload cover image agar LCP artikel lebih cepat -->
+  {coverImageOptimized && (
+    <link rel="preload" as="image" href={coverImageOptimized} fetchpriority="high" slot="head" />
+  )}
   <!-- BreadcrumbList JSON-LD untuk rich results Google SERP -->
   <script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 
@@ -102,10 +114,10 @@ const breadcrumbJsonLd = {
       </header>
 
       <!-- Cover Image — eager load karena ini adalah LCP element utama -->
-      {post.coverImage && (
+      {(coverImageOptimized || post.coverImage) && (
         <div class="mb-8 overflow-hidden rounded-xl aspect-video bg-gray-100">
           <img
-            src={post.coverImage}
+            src={coverImageOptimized || post.coverImage}
             alt={post.title}
             width="900"
             height="506"

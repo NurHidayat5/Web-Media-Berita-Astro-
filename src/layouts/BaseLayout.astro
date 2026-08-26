@@ -16,7 +16,7 @@ interface Props {
 }
 
 const { title, description = 'Portal berita terpercaya seputar pertanian (Agriculture) dan IoT.', image, type = 'website', publishDate, author } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'http://localhost:4321');
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://seputar-redaksi.vercel.app');
 ---
 
 <!doctype html>
@@ -25,13 +25,33 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'http://localhost
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-visual" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Preconnect ke Wix CDN agar gambar LCP lebih cepat -->
+    <link rel="preconnect" href="https://static.wixstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://static.wixstatic.com" />
+    <!-- Google Fonts dimuat hanya setelah browser idle (tidak memblokir FCP) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@700&display=swap" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@700&display=swap" rel="stylesheet" /></noscript>
     <SEOHead title={title} description={description} image={image} url={canonicalURL.href} type={type} publishDate={publishDate} author={author} />
     <ViewTransitions />
+    <slot name="head" />
+    <!-- Load Google Fonts hanya saat browser idle — tidak memblokir FCP sama sekali -->
+    <script is:inline>
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+          var l = document.createElement('link');
+          l.rel = 'stylesheet';
+          l.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@700&display=swap';
+          document.head.appendChild(l);
+        });
+      } else {
+        setTimeout(function() {
+          var l = document.createElement('link');
+          l.rel = 'stylesheet';
+          l.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@700&display=swap';
+          document.head.appendChild(l);
+        }, 300);
+      }
+    </script>
   </head>
   <body class="min-h-screen flex flex-col bg-white text-gray-900 font-sans antialiased pb-16 sm:pb-0">
     <Header />

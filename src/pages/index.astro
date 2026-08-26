@@ -17,6 +17,15 @@ if (allPosts.length > 0 && allPosts.length < 30) {
 }
 // -------------------------------------------------
 
+// Helper: optimasi URL gambar Wix agar lebih kecil dan cepat dimuat
+// static.wixstatic.com mendukung parameter w, q, f (format)
+function optimizeWixImage(url: string, width: number, quality = 80): string {
+  if (!url || !url.includes('wixstatic.com')) return url;
+  // Jika sudah ada query string, skip
+  if (url.includes('?')) return url;
+  return `${url}/v1/fit/w_${width},q_${quality}/file.webp`;
+}
+
 // Membagi berita untuk berbagai section
 const heroPost = allPosts[0];
 const subheroPosts = allPosts.slice(1, 4); // 3 artikel pendukung (subhero)
@@ -24,9 +33,16 @@ const sidebarPosts = allPosts.slice(4, 9); // 5 artikel untuk sidebar
 const editorsPickPosts = allPosts.slice(9, 12); // 3 artikel untuk pilihan redaksi
 const latestPosts = allPosts.slice(12, 18); // 6 artikel list
 const morePosts = allPosts.slice(18); // sisanya
+
+// Pre-optimize hero image URL untuk LCP
+const heroImageOptimized = heroPost?.coverImage ? optimizeWixImage(heroPost.coverImage, 900) : undefined;
 ---
 
-<BaseLayout title="Seputar Redaksi - Berita Terkini & Terpercaya" description="Portal berita terpercaya seputar pertanian (Agriculture) dan IoT.">
+<BaseLayout title="Seputar Redaksi - Berita Terkini & Terpercaya" description="Portal berita terpercaya seputar pertanian (Agriculture) dan IoT." image={heroImageOptimized}>
+  <!-- Preload hero image agar LCP lebih cepat -->
+  {heroImageOptimized && (
+    <link rel="preload" as="image" href={heroImageOptimized} fetchpriority="high" slot="head" />
+  )}
   
   <!-- Ticker Breaking News -->
   <div class="bg-red-700 text-white text-sm py-2">
@@ -70,7 +86,7 @@ const morePosts = allPosts.slice(18); // sisanya
           <div class="mb-8 border-b border-gray-200 pb-8">
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 gap-y-10">
               <div class="sm:col-span-3 border-b border-gray-200 pb-6">
-                <ArticleCard {...heroPost} layout="hero" />
+                <ArticleCard {...heroPost} coverImage={heroImageOptimized} layout="hero" isFirstCard={true} />
               </div>
               {subheroPosts.map(post => (
                 <div class="col-span-1 border-b border-gray-200 pb-6">

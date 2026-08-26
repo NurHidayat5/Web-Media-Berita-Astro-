@@ -7,20 +7,35 @@ const { format = 'banner' } = Astro.props;
 ---
 
 <div class="flex justify-center w-full overflow-hidden my-4 bg-gray-50 rounded-lg p-2 border border-gray-100">
-  <div class="max-w-full overflow-x-auto text-center hide-scrollbar flex justify-center">
-    <!-- Script Iklan Adsterra 728x90 -->
-    <script is:inline>
-      atOptions = {
-        'key' : 'd82f91bac4277090adaaef9711ba534b',
-        'format' : 'iframe',
-        'height' : 90,
-        'width' : 728,
-        'params' : {}
-      };
-    </script>
-    <script is:inline src="https://www.highperformanceformat.com/d82f91bac4277090adaaef9711ba534b/invoke.js"></script>
+  <div class="max-w-full overflow-x-auto text-center hide-scrollbar flex justify-center min-h-[90px] items-center" id="adsterra-container">
+    <!-- Iklan dimuat lazy saat elemen masuk viewport — tidak memblokir FCP/LCP -->
   </div>
 </div>
+
+<script is:inline>
+  (function() {
+    var container = document.getElementById('adsterra-container');
+    if (!container) return;
+    var observer = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        observer.disconnect();
+        // Load Adsterra hanya ketika user scroll mendekati iklan
+        window.atOptions = {
+          'key': 'd82f91bac4277090adaaef9711ba534b',
+          'format': 'iframe',
+          'height': 90,
+          'width': 728,
+          'params': {}
+        };
+        var s = document.createElement('script');
+        s.src = 'https://www.highperformanceformat.com/d82f91bac4277090adaaef9711ba534b/invoke.js';
+        s.async = true;
+        container.appendChild(s);
+      }
+    }, { rootMargin: '200px' });
+    observer.observe(container);
+  })();
+</script>
 
 <style>
   .hide-scrollbar::-webkit-scrollbar {
