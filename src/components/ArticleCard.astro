@@ -7,9 +7,10 @@ interface Props {
   publishDate: string;
   category?: string;
   layout?: 'grid' | 'list' | 'hero' | 'compact' | 'subhero';
+  isFirstCard?: boolean;
 }
 
-const { title, slug, excerpt, coverImage, publishDate, category, layout = 'grid' } = Astro.props;
+const { title, slug, excerpt, coverImage, publishDate, category, layout = 'grid', isFirstCard = false } = Astro.props;
 
 // Convert to ID format, e.g. "22 Juli 2026"
 const dateObj = new Date(publishDate);
@@ -34,8 +35,12 @@ const formattedDate = dateObj.toLocaleDateString('id-ID', {
         <img
           src={coverImage}
           alt={title}
+          width="800"
+          height={layout === 'compact' ? '800' : '450'}
           class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          loading="lazy"
+          loading={isFirstCard ? 'eager' : 'lazy'}
+          fetchpriority={isFirstCard ? 'high' : 'auto'}
+          decoding={isFirstCard ? 'sync' : 'async'}
         />
       </div>
     )}

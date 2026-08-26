@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://blog-pribadi.vercel.app/sitemap.xml
+Sitemap: https://seputar-redaksi.vercel.app/sitemap.xml

@@ -48,7 +48,7 @@ const jsonLd = type === 'article'
         name: siteName,
         logo: {
           '@type': 'ImageObject',
-          url: new URL('/favicon.svg', Astro.site || 'http://localhost:4321').href,
+          url: new URL('/favicon.svg', Astro.site || 'https://seputar-redaksi.vercel.app').href,
         },
       },
       mainEntityOfPage: {
@@ -66,7 +66,7 @@ const jsonLd = type === 'article'
         '@type': 'SearchAction',
         target: {
           '@type': 'EntryPoint',
-          urlTemplate: new URL('/search?q={search_term_string}', Astro.site || 'http://localhost:4321').href,
+          urlTemplate: new URL('/search?q={search_term_string}', Astro.site || 'https://seputar-redaksi.vercel.app').href,
         },
         'query-input': 'required name=search_term_string',
       },
@@ -76,14 +76,21 @@ const jsonLd = type === 'article'
 <!-- Google Search Console Verification -->
 <meta name="google-site-verification" content="dkWCjDLMrw1OXd2eWD5iJ7-KnrXtzu86RaJKh-XQWos" />
 
-<!-- Google Analytics (GA4) -->
-<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-GXV8R8ERNM"></script>
+<!-- Google Analytics (GA4) — non-blocking, dimuat setelah halaman siap -->
 <script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-GXV8R8ERNM');
+  // Defer GA4 agar tidak memblokir render halaman
+  window.addEventListener('load', function() {
+    var script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-GXV8R8ERNM';
+    script.async = true;
+    document.head.appendChild(script);
+    script.onload = function() {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GXV8R8ERNM', { send_page_view: true });
+    };
+  });
 </script>
 
 <title>{siteTitle}</title>
